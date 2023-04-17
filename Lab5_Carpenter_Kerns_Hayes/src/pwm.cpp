@@ -28,9 +28,5 @@ void initPWMTimer3(){
 
 void changeDutyCycle(unsigned int combo){
 
-if (combo >= 512)
-OCR3A = (combo-512)*2;
-else {
-OCR3A = (512 - combo)*2;
-}
+OCR3A = combo;
 }

@@ -87,7 +87,13 @@ int main(){
       break;
       case frown:
         displayFrown();
-      //make the alarm chirp
+        //make the alarm chirp
+        if (muteflag == 0){
+        changeDutyCycle(350);
+        }
+        else{
+          changeDutyCycle(0);
+        }
       break;
       default:
       matrix = smile;
