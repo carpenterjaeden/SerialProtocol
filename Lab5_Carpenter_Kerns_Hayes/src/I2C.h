@@ -6,5 +6,6 @@ void StartI2C_Trans(unsigned char SLA);
 void StopI2C_Trans();
 void Read_from(unsigned char SLA, unsigned char MEMADDRESS);
 void write(unsigned char data);
+unsigned char Read_data();
 
 #endif

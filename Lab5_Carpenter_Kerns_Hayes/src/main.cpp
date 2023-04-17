@@ -45,6 +45,8 @@ int main(){
   initSwitchPD0();
   InitI2C();
   SPI_MASTER_Init();
+  Serial.begin(9600);
+
   
 	
   sei(); // Enable global interrupts.
@@ -53,8 +55,30 @@ int main(){
   float voltage = 0;
 	while (1) {
 
+    //Read X
+    Read_from(117, 59);
+    unsigned int x = Read_data();
+    Read_from(117, 60);
+    x = (x<<8) + Read_data();
+    //Read Y
+    Read_from(117, 61);
+    unsigned int y = Read_data();
+    Read_from(117, 62);
+    y = (y<<8) + Read_data();
+    //Read Z
+    Read_from(117, 63);
+    unsigned int z = Read_data();
+    Read_from(117, 64);
+    z = (z<<8) + Read_data();
+    //Serial prints
+    Serial.println(x);
+    Serial.println(y);
+    Serial.println(y);
    //if reaches threshhold, trigger frown
 
+    if ((y > 350) | (z > 350)){
+      
+    }
 
     switch (matrix){
       case smile:
