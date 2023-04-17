@@ -31,7 +31,7 @@
 typedef enum {smile, frown} states;
 states matrix = smile;
 
-  unsigned int muteflag = 0;
+  boolean muteflag = 0;
 
   typedef enum {wait_press, debounce_press, wait_release, debounce_release} debounce;
 //define global variable for debounce states
@@ -82,11 +82,11 @@ int main(){
 
     switch (matrix){
       case smile:
-        //make the matrix smile
-        //mute flag low
+        displaySmile();
+        muteflag = 0;
       break;
       case frown:
-      //make the matrix frown
+        displayFrown();
       //make the alarm chirp
       break;
       default:
