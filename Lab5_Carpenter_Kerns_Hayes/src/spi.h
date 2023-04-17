@@ -1,7 +1,7 @@
-#ifndef SEVENSEGMENT_H
-#define SEVENSEGMENT_H
+#ifndef SPI_H
+#define SPI_H
 
-void initSevenSegment();
-void displayNum(unsigned int num);
+void SPI_MASTER_Init();
+void write_execute(unsigned char CMD, unsigned char data);
 
 #endif
