@@ -73,11 +73,11 @@ int main(){
     //Serial prints
     Serial.println(x);
     Serial.println(y);
-    Serial.println(y);
+    Serial.println(z);
    //if reaches threshhold, trigger frown
 
     if ((y > 350) | (z > 350)){
-      
+      matrix = frown;
     }
 
     switch (matrix){
