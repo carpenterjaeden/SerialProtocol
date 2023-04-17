@@ -28,10 +28,10 @@
 /*
  * Define a set of states that can be used in the state machine using an enum.
  */
-typedef enum {counting, motor} states;
-states interrupt = motor;
+typedef enum {smile, frown} states;
+states matrix = smile;
 
-  unsigned int portdhistory = 0;
+  unsigned int muteflag = 0;
 
   typedef enum {wait_press, debounce_press, wait_release, debounce_release} debounce;
 //define global variable for debounce states
@@ -45,8 +45,6 @@ int main(){
   initSwitchPD0();
   InitI2C();
   SPI_MASTER_Init();
-
-
   
 	
   sei(); // Enable global interrupts.
@@ -55,33 +53,20 @@ int main(){
   float voltage = 0;
 	while (1) {
 
-      result = ADCL;
-      result += ((unsigned int) ADCH) << 8;
-      voltage = result * (4.586/1024.0);
-      Serial.println(voltage,2);
-      Serial.flush();
-    
+   //if reaches threshhold, trigger frown
 
-//switch case to determine delay based on the state we are in (motor or counting)
-    switch (interrupt){
-      case motor:
-        PORTB |= (1<<PB5);
-        changeDutyCycle(ADCL + ((unsigned int)ADCH << 8));
+
+    switch (matrix){
+      case smile:
+        //make the matrix smile
+        //mute flag low
       break;
-      case counting:
-      PORTB &= ~(1 << PB5);
-      //set duty cycle at the 0
-        changeDutyCycle(512);
-        for (unsigned int i = 9; i >= 0; i--){
-          PORTB |= (1 << PB5);
-          displayNum(i);
-          delayMs0(1000);
-        }
-        
-        interrupt = motor;
+      case frown:
+      //make the matrix frown
+      //make the alarm chirp
       break;
       default:
-      interrupt = motor;
+      matrix = smile;
       break;
     }
 
@@ -93,7 +78,7 @@ int main(){
 
   //debounce press adds delay and goes to wait_release
     case debounce_press:
-    delayMs0(1);
+    delayMs(1);
     dbState = wait_release;
     break;
 
@@ -102,9 +87,9 @@ int main(){
     break;
   //After release, delay and then go back to waiting for press
     case debounce_release:
-    delayMs0(1);
+    delayMs(1);
     dbState = wait_press;
-    interrupt = counting;
+    //if frown, mute flag high
     break;
 
   }
