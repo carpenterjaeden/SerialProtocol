@@ -17,8 +17,6 @@ void initI2C() {
   TWSR |= (1 << TWPS0);  // prescaler power = 1
   TWSR &= ~(1 << TWPS1); // prescaler power = 1 
 
-  //ð‘‡ð‘Šðµð‘…=((ð¶ð‘ƒð‘ˆ ð¶ð‘™ð‘œð‘ð‘˜ ð‘“ð‘Ÿð‘’ð‘žð‘¢ð‘’ð‘›ð‘ð‘¦)/(ð‘†ð¶ð¿ ð‘“ð‘Ÿð‘’ð‘žð‘¢ð‘’ð‘›ð‘ð‘¦)âˆ’16)/(2âˆ—ã€–(4)ã€—^ð‘‡ð‘Šð‘ƒð‘† )
-
   TWBR = 0xC6; // bit rate generator = 10k  (TWBR = 198)
   TWCR |= (1 << TWINT )| (1 << TWEN); // enable two wire interface
 }
