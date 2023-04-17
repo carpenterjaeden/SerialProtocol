@@ -19,7 +19,8 @@
 #include "switch.h"
 #include "timer.h"
 #include "pwm.h"
-#include "sevensegment.h"
+#include "I2C.h"
+#include "spi.h"
 
 // defines
 
@@ -33,12 +34,12 @@ states interrupt = motor;
   unsigned int portdhistory = 0;
 int main(){
 
-  initTimer0();
+  
   initTimer1();
   initPWMTimer3();
   initSwitchPD0();
-  initSevenSegment();
-
+  InitI2C();
+  SPI_MASTER_Init();
 
 
   
