@@ -32,6 +32,11 @@ typedef enum {counting, motor} states;
 states interrupt = motor;
 
   unsigned int portdhistory = 0;
+
+  typedef enum {wait_press, debounce_press, wait_release, debounce_release} debounce;
+//define global variable for debounce states
+volatile debounce dbState = wait_press;
+
 int main(){
 
   
@@ -43,22 +48,36 @@ int main(){
 
 
   
+	
   sei(); // Enable global interrupts.
   
+  unsigned int result = 0;
+  float voltage = 0;
 	while (1) {
 
-//switch case to determine delay based on the state we are in (motor or longDelat)
+      result = ADCL;
+      result += ((unsigned int) ADCH) << 8;
+      voltage = result * (4.586/1024.0);
+      Serial.println(voltage,2);
+      Serial.flush();
+    
+
+//switch case to determine delay based on the state we are in (motor or counting)
     switch (interrupt){
       case motor:
-        
+        PORTB |= (1<<PB5);
         changeDutyCycle(ADCL + ((unsigned int)ADCH << 8));
       break;
       case counting:
-        
+      PORTB &= ~(1 << PB5);
+      //set duty cycle at the 0
+        changeDutyCycle(512);
         for (unsigned int i = 9; i >= 0; i--){
+          PORTB |= (1 << PB5);
           displayNum(i);
-          delayMs1(1000);
+          delayMs0(1000);
         }
+        
         interrupt = motor;
       break;
       default:
@@ -66,23 +85,48 @@ int main(){
       break;
     }
 
-   
+  //Switch case for debounce states
+  switch(dbState){
+  //do nothing while waiting
+    case wait_press:
+    break;
+
+  //debounce press adds delay and goes to wait_release
+    case debounce_press:
+    delayMs0(1);
+    dbState = wait_release;
+    break;
+
+  //Do nothing while waiting
+    case wait_release:
+    break;
+  //After release, delay and then go back to waiting for press
+    case debounce_release:
+    delayMs0(1);
+    dbState = wait_press;
+    interrupt = counting;
+    break;
+
+  }
 
 	}
   return 0;
 }
 
-/* Implement an Pin Change Interrupt which handles the switch being
-* pressed and released. When the switch is pressed and released, the LEDs
-* change at twice the original rate. If the LEDs are already changing at twice
-* the original rate, it goes back to the original rate.
-*/
-//INT0 => PORTD0
+
+//Pin change interrupt: INT0 uses PORTD0
 ISR(INT0_vect){
-unsigned int changedbits;
-changedbits = PIND ^ portdhistory;
-portdhistory = PIND;
-if(changedbits & (1 << PD0))
-{ interrupt = counting; }
+
+//if INT0 is triggered for press
+if (dbState == wait_press){
+  dbState = debounce_press;
+}
+//if INT0 is triggered for release
+else if (dbState == wait_release){
+  //change motor state to counting
+  dbState = debounce_release;
+}
+
+
 
 }
