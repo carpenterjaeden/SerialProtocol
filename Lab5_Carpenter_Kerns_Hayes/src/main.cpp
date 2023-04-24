@@ -57,7 +57,7 @@ int main(){
   
   initTimer1();
   initPWMTimer3();
-  initSwitchPD0();
+  initSwitchPD2();
   InitI2C();
   SPI_MASTER_Init();
   Serial.begin(9600);
@@ -145,7 +145,7 @@ int main(){
 
 
 //Pin change interrupt: INT0 uses PORTD0
-ISR(INT0_vect){
+ISR(INT2_vect){
 
 //if INT0 is triggered for press
 if (dbState == wait_press){
