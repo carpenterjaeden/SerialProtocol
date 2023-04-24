@@ -81,29 +81,33 @@ StopI2C_Trans();
   //unsigned int result = 0;
   //float voltage = 0;
 	while (1) {
+    delayMs(1000);
 
     //Read X
     Read_from(104, 59);
-    unsigned int x = Read_data();
+    int x = Read_data();
     Read_from(104, 60);
     x = (x<<8) + Read_data();
     //Read Y
     Read_from(104, 61);
-    unsigned int y = Read_data();
+    int y = Read_data();
     Read_from(104, 62);
     y = (y<<8) + Read_data();
     //Read Z
     Read_from(104, 63);
-    unsigned int z = Read_data();
+    int z = Read_data();
     Read_from(104, 64);
     z = (z<<8) + Read_data();
     //Serial prints
-    Serial.println(x);
-    Serial.println(y);
-    Serial.println(z);
+    Serial.print("x: ");Serial.println(x);Serial.print("y: ");
+    Serial.println(y);Serial.print("z: ");Serial.println(z);Serial.println();
+    
+    // Serial.println(x);
+    // Serial.println(y);
+    // Serial.println(z);
    //if reaches threshhold, trigger frown
 
-    if ((y > 350) | (z > 350)){
+    if (((y < -2300) & (y > 500))  | (z < 0)){
       matrix = frown;
     }
 
