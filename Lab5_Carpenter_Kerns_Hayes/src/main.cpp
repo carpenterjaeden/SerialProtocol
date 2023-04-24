@@ -65,6 +65,19 @@ int main(){
 	
   sei(); // Enable global interrupts.
   
+StartI2C_Trans(104);
+
+//status = TWSR & 0xF8;
+
+write(0x6B);// address on SLA for Power Management
+write(0); // send data to Wake up from sleep mode
+
+
+//status = TWSR & 0xF8;
+
+
+StopI2C_Trans();
+
   //unsigned int result = 0;
   //float voltage = 0;
 	while (1) {
