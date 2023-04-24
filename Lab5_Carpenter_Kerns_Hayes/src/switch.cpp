@@ -21,7 +21,7 @@ PORTD |= (1 << PD2);
 
 //Set the external interrupt control register A to 11 for INT0
 EICRA |= (1<<ISC20) | (1<<ISC21);
-//turn on INT0 in the external interrupt mask register to enable it
+//turn on INT2 in the external interrupt mask register to enable it
 EIMSK |= (1<<INT2);
 
 

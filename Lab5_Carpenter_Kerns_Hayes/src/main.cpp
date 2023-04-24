@@ -58,7 +58,7 @@ int main(){
   initTimer1();
   initPWMTimer3();
   initSwitchPD2();
-  InitI2C();
+  initI2C();
   SPI_MASTER_Init();
   Serial.begin(9600);
 
