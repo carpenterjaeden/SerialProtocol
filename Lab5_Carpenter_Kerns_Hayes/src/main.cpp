@@ -61,29 +61,28 @@ int main(){
   initI2C();
   SPI_MASTER_Init();
   Serial.begin(9600);
-
   
 	
   sei(); // Enable global interrupts.
   
-  unsigned int result = 0;
-  float voltage = 0;
+  //unsigned int result = 0;
+  //float voltage = 0;
 	while (1) {
 
     //Read X
-    Read_from(117, 59);
+    Read_from(104, 59);
     unsigned int x = Read_data();
-    Read_from(117, 60);
+    Read_from(104, 60);
     x = (x<<8) + Read_data();
     //Read Y
-    Read_from(117, 61);
+    Read_from(104, 61);
     unsigned int y = Read_data();
-    Read_from(117, 62);
+    Read_from(104, 62);
     y = (y<<8) + Read_data();
     //Read Z
-    Read_from(117, 63);
+    Read_from(104, 63);
     unsigned int z = Read_data();
-    Read_from(117, 64);
+    Read_from(104, 64);
     z = (z<<8) + Read_data();
     //Serial prints
     Serial.println(x);
