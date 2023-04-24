@@ -78,11 +78,15 @@ write(0); // send data to Wake up from sleep mode
 
 StopI2C_Trans();
 
+write_execute(0x0A, 0x08); //brightness control
+write_execute(0x0B, 0x07); //scanning all rows and columns
+write_execute(0x0C, 0x01); //set shutdown register to normal operation (0x01)
+write_execute(0x0F, 0x00); //display test register - set to normal operation
+
   //unsigned int result = 0;
   //float voltage = 0;
 	while (1) {
     delayMs(1000);
-
     //Read X
     Read_from(104, 59);
     int x = Read_data();
@@ -101,14 +105,14 @@ StopI2C_Trans();
     //Serial prints
     Serial.print("x: ");Serial.println(x);Serial.print("y: ");
     Serial.println(y);Serial.print("z: ");Serial.println(z);Serial.println();
-    
-    // Serial.println(x);
-    // Serial.println(y);
-    // Serial.println(z);
-   //if reaches threshhold, trigger frown
 
-    if (((y < -2300) & (y > 500))  | (z < 0)){
+
+   //if reaches threshhold, trigger frown
+    if ((y < -2300)  | (z < 0)){
       matrix = frown;
+    }
+    else{
+    matrix = smile;
     }
 
     switch (matrix){
@@ -120,10 +124,10 @@ StopI2C_Trans();
         displayFrown();
         //make the alarm chirp
         if (muteflag == 0){
-        changeDutyCycle(350);
+        turnOnAlarm();
         }
         else{
-          changeDutyCycle(0);
+        turnOffAlarm();
         }
       break;
       default:
@@ -150,7 +154,8 @@ StopI2C_Trans();
     case debounce_release:
     delayMs(1);
     dbState = wait_press;
-    //if frown, mute flag high
+    muteflag = 1;
+
     break;
 
   }

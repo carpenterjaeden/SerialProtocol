@@ -2,6 +2,8 @@
 #define PWM_H
 
 void initPWMTimer3();
-void changeDutyCycle(unsigned int combo);
+void changeFrequency(unsigned int combo);
+void turnOnAlarm();
+void turnOffAlarm();
 
 #endif

@@ -38,7 +38,9 @@ void SPI_MASTER_Init() {
         SPI_PORT |= (1 << SPI_SS_BIT); // disable chip select to end SPI frame
     }
     //Code for displaying a frown on the 8x8 LED matrix
-    void displayFrown(){
+    void displaySmile(){
+    
+
     write_execute(1, 0b00000000);
     write_execute(2, 0b00100100);
     write_execute(3, 0b00100100);
@@ -49,7 +51,7 @@ void SPI_MASTER_Init() {
     write_execute(8, 0b00000000);
     }
     //Code for displaying a smile on the 8x8 LED matrix
-    void displaySmile(){
+    void displayFrown(){
     write_execute(1, 0b00000000);
     write_execute(2, 0b00100100);
     write_execute(3, 0b00100100);
