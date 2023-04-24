@@ -83,6 +83,8 @@ write_execute(0x0B, 0x07); //scanning all rows and columns
 write_execute(0x0C, 0x01); //set shutdown register to normal operation (0x01)
 write_execute(0x0F, 0x00); //display test register - set to normal operation
 
+turnOffAlarm(); //initialize alarm as off
+
   //unsigned int result = 0;
   //float voltage = 0;
 	while (1) {
@@ -155,6 +157,7 @@ write_execute(0x0F, 0x00); //display test register - set to normal operation
     delayMs(1);
     dbState = wait_press;
     muteflag = 1;
+    turnOffAlarm();
 
     break;
 
